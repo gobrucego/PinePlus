@@ -7,9 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01185AF75E910D2D848E3A81 /* ZenModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5182AAE40F71A4721867DB /* ZenModeState.swift */; };
 		03782B4223158A60008AABFC /* SplashScreenWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03782B3E23158A60008AABFC /* SplashScreenWindowController.xib */; };
 		03782B4323158A60008AABFC /* SplashScreenWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03782B3F23158A60008AABFC /* SplashScreenWindowController.swift */; };
 		03782B4423158A60008AABFC /* SplashScreenRecentDocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03782B4023158A60008AABFC /* SplashScreenRecentDocumentView.xib */; };
+		03A18B66F096D9CB7E774AED /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AF02FA502B220CFE70712 /* Command.swift */; };
+		0C5914348DCC4F733C4C6612 /* MarkdownTableParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB5E69EE801B5161C79A68A /* MarkdownTableParser.swift */; };
+		1EE1E1A88BA6C46AF86715C9 /* OutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E8CB3CD5F4D62A27A0243B /* OutlineViewController.swift */; };
+		2D046BE99BF6FB701F414110 /* CommandRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96696AE26FD8DC6417FDBCC7 /* CommandRegistry.swift */; };
+		4CBB07B87910D063B59A2B5D /* OutlineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B44F11EC3ADF3AFD9217A8 /* OutlineItem.swift */; };
+		5C4F51999C3CAD1BA26E7C23 /* TableEditorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FB5121C8CCD82F1F6ECBE3 /* TableEditorWindowController.swift */; };
+		68ACF834BD001D3FA6F6BC8D /* TableEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C211C27AC62CEA310A0E02 /* TableEditorViewController.swift */; };
+		6A3257A36613F259B7EA57B2 /* ParagraphDimmingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD157AC5AAA2FE239A7220AA /* ParagraphDimmingOverlay.swift */; };
+		7486DC2DC0FA4A5825CA1A31 /* CommandPaletteWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615236A88C8CE8FAD7EBFF61 /* CommandPaletteWindowController.swift */; };
+		76B4C71EE031DE995739807F /* MarkdownTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FD803E302D2CB8D258D5D6 /* MarkdownTable.swift */; };
+		7BB487725CE993E54EC8C475 /* EditorMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8F4D99881ADA9545403F86 /* EditorMode.swift */; };
 		A104782520E7338800E0930A /* FileSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A104782420E7338800E0930A /* FileSystemItem.swift */; };
 		A10B86DD2227BB3E000656DD /* PreferencesSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B86DC2227BB3E000656DD /* PreferencesSplitViewController.swift */; };
 		A10B86DF2227BB6E000656DD /* PreferencesSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B86DE2227BB6E000656DD /* PreferencesSidebarViewController.swift */; };
@@ -23,6 +35,7 @@
 		A127E31E20DF0F8400E13795 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A127E31D20DF0F8400E13795 /* SidebarViewController.swift */; };
 		A127E32020DF13FA00E13795 /* OpenDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = A127E31F20DF13FA00E13795 /* OpenDocuments.swift */; };
 		A13B2E8B22322CBD00F24A84 /* MarkdownTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13B2E8A22322CBD00F24A84 /* MarkdownTextView.swift */; };
+		A13B4B32465E397F46769981 /* FuzzySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0147B46A8C3B6DF4F16A4442 /* FuzzySearch.swift */; };
 		A13C23F8209153E1008557D0 /* ReferenceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13C23F7209153E1008557D0 /* ReferenceWindowController.swift */; };
 		A13C23FC20919672008557D0 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13C23FB20919672008557D0 /* PreviewViewController.swift */; };
 		A148C3A020914F0F00B1165C /* SyntaxThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A148C39F20914F0F00B1165C /* SyntaxThemes.swift */; };
@@ -89,11 +102,17 @@
 		A1FB7AA22227EEEF00DC2E0E /* PreferencesSwitchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB7AA12227EEEF00DC2E0E /* PreferencesSwitchButton.swift */; };
 		A1FB7AA52227F5B100DC2E0E /* MarkdownStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB7AA42227F5B100DC2E0E /* MarkdownStackView.swift */; };
 		A1FD269A20932CDD004D1C95 /* highlight-js in Resources */ = {isa = PBXBuildFile; fileRef = A1FD269820932CDC004D1C95 /* highlight-js */; };
+		A5D5E52B7E8ED1189F9919A1 /* CommandPaletteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 990C5C4C66A70F5D7F6A7B59 /* CommandPaletteViewController.swift */; };
+		A9C60DAFBCC717EF54302C6C /* MarkdownOutlineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F195B6702BFF3A613F508B /* MarkdownOutlineParser.swift */; };
+		B3799C9516B0A006F38BFA19 /* FloatingFormatToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87668EB5F3E7FF7AD24666BC /* FloatingFormatToolbar.swift */; };
+		C7EE3AAB9D93C96B5071D875 /* ZenModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D0A08A0E2C8764A9CD3FFD /* ZenModeManager.swift */; };
 		DFFBB67B2EB2F81A000DC527 /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = DFFBB67A2EB2F81A000DC527 /* Highlightr */; };
 		DFFBB67E2EB2FE6E000DC527 /* cmark-gfm-swift in Frameworks */ = {isa = PBXBuildFile; productRef = DFFBB67D2EB2FE6E000DC527 /* cmark-gfm-swift */; };
 		DFFBB6812EB30753000DC527 /* cmark-gfm-swift in Frameworks */ = {isa = PBXBuildFile; productRef = DFFBB6802EB30753000DC527 /* cmark-gfm-swift */; };
 		DFFBB6842EB33060000DC527 /* cmark-gfm-swift in Frameworks */ = {isa = PBXBuildFile; productRef = DFFBB6832EB33060000DC527 /* cmark-gfm-swift */; };
 		DFFBB6872EB33106000DC527 /* cmark-gfm-swift in Frameworks */ = {isa = PBXBuildFile; productRef = DFFBB6862EB33106000DC527 /* cmark-gfm-swift */; };
+		FB2047BEEED6762695544D3A /* EditorModeIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E266B8F581C852B35357C691 /* EditorModeIndicator.swift */; };
+		FB9F651A3509375632E7DE05 /* BeginnerModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2ED507C3661A48BC71D0AA /* BeginnerModeManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,9 +133,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0147B46A8C3B6DF4F16A4442 /* FuzzySearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FuzzySearch.swift; sourceTree = "<group>"; };
+		01B44F11EC3ADF3AFD9217A8 /* OutlineItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OutlineItem.swift; sourceTree = "<group>"; };
 		03782B3E23158A60008AABFC /* SplashScreenWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashScreenWindowController.xib; sourceTree = "<group>"; };
 		03782B3F23158A60008AABFC /* SplashScreenWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenWindowController.swift; sourceTree = "<group>"; };
 		03782B4023158A60008AABFC /* SplashScreenRecentDocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashScreenRecentDocumentView.xib; sourceTree = "<group>"; };
+		0E8AF02FA502B220CFE70712 /* Command.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		13F195B6702BFF3A613F508B /* MarkdownOutlineParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkdownOutlineParser.swift; sourceTree = "<group>"; };
+		3E8F4D99881ADA9545403F86 /* EditorMode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditorMode.swift; sourceTree = "<group>"; };
+		615236A88C8CE8FAD7EBFF61 /* CommandPaletteWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CommandPaletteWindowController.swift; sourceTree = "<group>"; };
+		71E8CB3CD5F4D62A27A0243B /* OutlineViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OutlineViewController.swift; sourceTree = "<group>"; };
+		87668EB5F3E7FF7AD24666BC /* FloatingFormatToolbar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FloatingFormatToolbar.swift; sourceTree = "<group>"; };
+		8F5182AAE40F71A4721867DB /* ZenModeState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZenModeState.swift; sourceTree = "<group>"; };
+		90FB5121C8CCD82F1F6ECBE3 /* TableEditorWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableEditorWindowController.swift; sourceTree = "<group>"; };
+		96696AE26FD8DC6417FDBCC7 /* CommandRegistry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CommandRegistry.swift; sourceTree = "<group>"; };
+		990C5C4C66A70F5D7F6A7B59 /* CommandPaletteViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CommandPaletteViewController.swift; sourceTree = "<group>"; };
+		9BB5E69EE801B5161C79A68A /* MarkdownTableParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkdownTableParser.swift; sourceTree = "<group>"; };
 		A104782420E7338800E0930A /* FileSystemItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemItem.swift; sourceTree = "<group>"; };
 		A10B86DC2227BB3E000656DD /* PreferencesSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSplitViewController.swift; sourceTree = "<group>"; };
 		A10B86DE2227BB6E000656DD /* PreferencesSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSidebarViewController.swift; sourceTree = "<group>"; };
@@ -203,6 +235,12 @@
 		A1FB7AA12227EEEF00DC2E0E /* PreferencesSwitchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSwitchButton.swift; sourceTree = "<group>"; };
 		A1FB7AA42227F5B100DC2E0E /* MarkdownStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownStackView.swift; sourceTree = "<group>"; };
 		A1FD269820932CDC004D1C95 /* highlight-js */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "highlight-js"; sourceTree = "<group>"; };
+		C9C211C27AC62CEA310A0E02 /* TableEditorViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableEditorViewController.swift; sourceTree = "<group>"; };
+		CD157AC5AAA2FE239A7220AA /* ParagraphDimmingOverlay.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ParagraphDimmingOverlay.swift; sourceTree = "<group>"; };
+		D5D0A08A0E2C8764A9CD3FFD /* ZenModeManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZenModeManager.swift; sourceTree = "<group>"; };
+		E266B8F581C852B35357C691 /* EditorModeIndicator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditorModeIndicator.swift; sourceTree = "<group>"; };
+		E3FD803E302D2CB8D258D5D6 /* MarkdownTable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkdownTable.swift; sourceTree = "<group>"; };
+		FE2ED507C3661A48BC71D0AA /* BeginnerModeManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BeginnerModeManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +280,24 @@
 				03782B3E23158A60008AABFC /* SplashScreenWindowController.xib */,
 			);
 			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		8A73B7174931A5A7C11DED21 /* CommandPalette */ = {
+			isa = PBXGroup;
+			children = (
+				615236A88C8CE8FAD7EBFF61 /* CommandPaletteWindowController.swift */,
+				990C5C4C66A70F5D7F6A7B59 /* CommandPaletteViewController.swift */,
+			);
+			path = CommandPalette;
+			sourceTree = "<group>";
+		};
+		8F0A4F2D59EC7F1F11423DAD /* TableEditor */ = {
+			isa = PBXGroup;
+			children = (
+				90FB5121C8CCD82F1F6ECBE3 /* TableEditorWindowController.swift */,
+				C9C211C27AC62CEA310A0E02 /* TableEditorViewController.swift */,
+			);
+			path = TableEditor;
 			sourceTree = "<group>";
 		};
 		A10378522249CF2700E6F3C6 /* Core Text */ = {
@@ -295,6 +351,9 @@
 				A10B86DB2227BB2E000656DD /* Preferences */,
 				A1904EA92228A75A0004FB82 /* Reference */,
 				A1F40E6E231742A000BD98D2 /* SplashScreen */,
+				8A73B7174931A5A7C11DED21 /* CommandPalette */,
+				71E8CB3CD5F4D62A27A0243B /* OutlineViewController.swift */,
+				8F0A4F2D59EC7F1F11423DAD /* TableEditor */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -311,6 +370,12 @@
 				A156AFB020908ECE0098BBDD /* Theme.swift */,
 				A116F210224077BC00041BAC /* ToolbarData.swift */,
 				A116F20E22405ED800041BAC /* ToolbarItemInfo.swift */,
+				0E8AF02FA502B220CFE70712 /* Command.swift */,
+				96696AE26FD8DC6417FDBCC7 /* CommandRegistry.swift */,
+				01B44F11EC3ADF3AFD9217A8 /* OutlineItem.swift */,
+				8F5182AAE40F71A4721867DB /* ZenModeState.swift */,
+				E3FD803E302D2CB8D258D5D6 /* MarkdownTable.swift */,
+				3E8F4D99881ADA9545403F86 /* EditorMode.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -324,6 +389,9 @@
 				A1F122DE20DE0D27007DFD1A /* FileSaver.swift */,
 				A148C39F20914F0F00B1165C /* SyntaxThemes.swift */,
 				A1904EAA2228B6A40004FB82 /* Utils.swift */,
+				0147B46A8C3B6DF4F16A4442 /* FuzzySearch.swift */,
+				13F195B6702BFF3A613F508B /* MarkdownOutlineParser.swift */,
+				9BB5E69EE801B5161C79A68A /* MarkdownTableParser.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -339,6 +407,9 @@
 				A1D4A0372234C77A00E2159A /* SidebarTableRowView.swift */,
 				A111014020E8B8A4001EBEDE /* SidebarView.swift */,
 				A11D04432242F34B00B23444 /* ToolbarSegmentedControl.swift */,
+				CD157AC5AAA2FE239A7220AA /* ParagraphDimmingOverlay.swift */,
+				87668EB5F3E7FF7AD24666BC /* FloatingFormatToolbar.swift */,
+				E266B8F581C852B35357C691 /* EditorModeIndicator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -476,6 +547,8 @@
 			isa = PBXGroup;
 			children = (
 				A1BC8AF42241FE0600623917 /* MarkdownLayoutManager.swift */,
+				D5D0A08A0E2C8764A9CD3FFD /* ZenModeManager.swift */,
+				FE2ED507C3661A48BC71D0AA /* BeginnerModeManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -749,6 +822,25 @@
 				A13B2E8B22322CBD00F24A84 /* MarkdownTextView.swift in Sources */,
 				A156AF852090606C0098BBDD /* Document.swift in Sources */,
 				A1904EA42228A06C0004FB82 /* PreferenceCategory.swift in Sources */,
+				03A18B66F096D9CB7E774AED /* Command.swift in Sources */,
+				2D046BE99BF6FB701F414110 /* CommandRegistry.swift in Sources */,
+				A13B4B32465E397F46769981 /* FuzzySearch.swift in Sources */,
+				7486DC2DC0FA4A5825CA1A31 /* CommandPaletteWindowController.swift in Sources */,
+				A5D5E52B7E8ED1189F9919A1 /* CommandPaletteViewController.swift in Sources */,
+				4CBB07B87910D063B59A2B5D /* OutlineItem.swift in Sources */,
+				A9C60DAFBCC717EF54302C6C /* MarkdownOutlineParser.swift in Sources */,
+				1EE1E1A88BA6C46AF86715C9 /* OutlineViewController.swift in Sources */,
+				01185AF75E910D2D848E3A81 /* ZenModeState.swift in Sources */,
+				C7EE3AAB9D93C96B5071D875 /* ZenModeManager.swift in Sources */,
+				6A3257A36613F259B7EA57B2 /* ParagraphDimmingOverlay.swift in Sources */,
+				76B4C71EE031DE995739807F /* MarkdownTable.swift in Sources */,
+				0C5914348DCC4F733C4C6612 /* MarkdownTableParser.swift in Sources */,
+				5C4F51999C3CAD1BA26E7C23 /* TableEditorWindowController.swift in Sources */,
+				68ACF834BD001D3FA6F6BC8D /* TableEditorViewController.swift in Sources */,
+				7BB487725CE993E54EC8C475 /* EditorMode.swift in Sources */,
+				FB9F651A3509375632E7DE05 /* BeginnerModeManager.swift in Sources */,
+				B3799C9516B0A006F38BFA19 /* FloatingFormatToolbar.swift in Sources */,
+				FB2047BEEED6762695544D3A /* EditorModeIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

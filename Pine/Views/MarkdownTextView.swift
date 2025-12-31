@@ -16,6 +16,9 @@ class MarkdownTextView: NSTextView {
   private var needsRecompletion: Bool = false
   private var partialAutocompleteWord: String?
 
+  /// Whether typewriter mode is enabled (keeps cursor line centered)
+  public var isTypewriterModeEnabled: Bool = false
+
   private lazy var autocompletionTask = Debouncer(delay: 0, callback: {
     [unowned self] in self.performCompletion()
   })
@@ -78,6 +81,74 @@ class MarkdownTextView: NSTextView {
     if self.needsRecompletion {
       self.needsRecompletion = false
       self.autocompletionTask.call()
+    }
+
+    // Notify about cursor position for outline highlighting
+    notifyCursorPositionChanged()
+  }
+
+  override func setSelectedRange(_ charRange: NSRange, affinity: NSSelectionAffinity, stillSelecting stillSelectingFlag: Bool) {
+    super.setSelectedRange(charRange, affinity: affinity, stillSelecting: stillSelectingFlag)
+
+    // Notify when selection/cursor changes
+    if !stillSelectingFlag {
+      notifyCursorPositionChanged()
+    }
+  }
+
+  private func notifyCursorPositionChanged() {
+    let position = selectedRange().location
+    NotificationCenter.default.post(
+      name: .cursorPositionChanged,
+      object: self,
+      userInfo: ["position": position]
+    )
+
+    // Apply typewriter mode scrolling if enabled
+    if isTypewriterModeEnabled {
+      centerCurrentLine()
+    }
+  }
+
+  /// Centers the current line in the visible area (typewriter mode)
+  private func centerCurrentLine() {
+    guard let scrollView = enclosingScrollView,
+          let layoutManager = layoutManager,
+          let textContainer = textContainer else { return }
+
+    // Get the glyph range for the current selection
+    let glyphRange = layoutManager.glyphRange(forCharacterRange: selectedRange(), actualCharacterRange: nil)
+
+    // Get the bounding rect for the current line
+    let lineRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+
+    // Calculate the visible rect's center Y
+    let visibleRect = scrollView.documentVisibleRect
+    let centerY = visibleRect.midY
+
+    // Calculate where the line is relative to the view
+    let lineY = lineRect.midY + textContainerOrigin.y
+
+    // Calculate the offset needed to center the line
+    let offsetY = lineY - centerY
+
+    // Only scroll if the offset is significant
+    if abs(offsetY) > 1 {
+      var newOrigin = visibleRect.origin
+      newOrigin.y += offsetY
+
+      // Ensure we don't scroll past bounds
+      newOrigin.y = max(0, newOrigin.y)
+      if let documentHeight = scrollView.documentView?.frame.height {
+        newOrigin.y = min(newOrigin.y, documentHeight - visibleRect.height)
+      }
+
+      // Animate the scroll
+      NSAnimationContext.runAnimationGroup { context in
+        context.duration = 0.1
+        context.allowsImplicitAnimation = true
+        scrollView.documentView?.scroll(newOrigin)
+      }
     }
   }
 

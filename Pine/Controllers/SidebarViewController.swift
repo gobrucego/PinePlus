@@ -8,10 +8,22 @@
 
 import Cocoa
 
+/// Sidebar tab options
+enum SidebarTab: Int {
+  case files = 0
+  case outline = 1
+}
+
 class SidebarViewController: NSViewController {
 
   @IBOutlet weak private var sidebar: NSOutlineView!
   @IBOutlet weak private var sidebarActionsView: NSView!
+
+  // Tab switching
+  private var tabControl: NSSegmentedControl!
+  private var containerView: NSView!
+  private var outlineViewController: OutlineViewController?
+  private var currentTab: SidebarTab = .files
 
   // Data used for sidebar rows
   var items: [FileSystemItem] = []
@@ -53,6 +65,103 @@ class SidebarViewController: NSViewController {
 
     // Setup the contextual menus for sidebar items
     setupContextualMenu()
+
+    // Setup tab control and outline view
+    setupTabControl()
+    setupOutlineViewController()
+  }
+
+  // MARK: - Tab Control Setup
+
+  private func setupTabControl() {
+    // Create segmented control for tab switching
+    tabControl = NSSegmentedControl(labels: ["Files", "Outline"], trackingMode: .selectOne, target: self, action: #selector(tabChanged(_:)))
+    tabControl.selectedSegment = 0
+    tabControl.translatesAutoresizingMaskIntoConstraints = false
+    tabControl.segmentStyle = .texturedSquare
+    tabControl.segmentDistribution = .fillEqually
+
+    // Create container view for holding the active view
+    containerView = NSView()
+    containerView.translatesAutoresizingMaskIntoConstraints = false
+
+    // Add tab control to the view hierarchy (above sidebar actions view)
+    // Insert at the top of the sidebar's parent view
+    if let parentView = sidebar.superview?.superview {
+      parentView.addSubview(tabControl)
+
+      NSLayoutConstraint.activate([
+        tabControl.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: 8),
+        tabControl.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: -8),
+        tabControl.topAnchor.constraint(equalTo: parentView.topAnchor, constant: 8),
+        tabControl.heightAnchor.constraint(equalToConstant: 24)
+      ])
+    }
+  }
+
+  private func setupOutlineViewController() {
+    outlineViewController = OutlineViewController()
+    outlineViewController?.delegate = self
+  }
+
+  @objc private func tabChanged(_ sender: NSSegmentedControl) {
+    let newTab = SidebarTab(rawValue: sender.selectedSegment) ?? .files
+    switchToTab(newTab)
+  }
+
+  private func switchToTab(_ tab: SidebarTab) {
+    guard tab != currentTab else { return }
+    currentTab = tab
+
+    switch tab {
+    case .files:
+      showFilesView()
+    case .outline:
+      showOutlineView()
+    }
+  }
+
+  private func showFilesView() {
+    sidebar.isHidden = false
+    outlineViewController?.view.removeFromSuperview()
+  }
+
+  private func showOutlineView() {
+    sidebar.isHidden = true
+
+    guard let outlineVC = outlineViewController else { return }
+
+    // Add outline view to the same parent as sidebar
+    if let parentView = sidebar.superview {
+      outlineVC.view.translatesAutoresizingMaskIntoConstraints = false
+      parentView.addSubview(outlineVC.view)
+
+      // Account for tab control height (24) + padding (8 top + 8 bottom = 16)
+      // Tab is in grandparent, so outline needs offset from top of its parent
+      let tabAreaHeight: CGFloat = 40
+
+      NSLayoutConstraint.activate([
+        outlineVC.view.topAnchor.constraint(equalTo: parentView.topAnchor, constant: tabAreaHeight),
+        outlineVC.view.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
+        outlineVC.view.trailingAnchor.constraint(equalTo: parentView.trailingAnchor),
+        outlineVC.view.bottomAnchor.constraint(equalTo: parentView.bottomAnchor)
+      ])
+    }
+
+    // Request content update
+    refreshOutlineContent()
+  }
+
+  /// Update the outline view with current document content
+  public func updateOutline(with markdown: String) {
+    outlineViewController?.updateOutline(from: markdown)
+  }
+
+  /// Refresh outline content from current document
+  private func refreshOutlineContent() {
+    guard let doc = windowController?.document as? Document,
+          let markdown = doc.markdownVC?.getContent() else { return }
+    updateOutline(with: markdown)
   }
 
   public func sync() {
@@ -295,6 +404,24 @@ extension SidebarViewController: NSMenuDelegate {
     if !openDocuments.contains(itemToRemove) {
       menu.cancelTracking()
     }
+  }
+
+}
+
+// MARK: - OutlineViewControllerDelegate
+
+extension SidebarViewController: OutlineViewControllerDelegate {
+
+  func outlineViewController(_ controller: OutlineViewController, didSelectItem item: OutlineItem) {
+    // Navigate to the selected heading in the document
+    guard let doc = windowController?.document as? Document,
+          let markdownVC = doc.markdownVC else { return }
+
+    markdownVC.scrollToRange(item.range)
+  }
+
+  func outlineViewControllerDidRequestRefresh(_ controller: OutlineViewController) {
+    refreshOutlineContent()
   }
 
 }

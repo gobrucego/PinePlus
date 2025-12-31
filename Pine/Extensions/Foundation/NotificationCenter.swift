@@ -34,4 +34,13 @@ extension Notification.Name {
   static let markdownContentChanged = Notification.Name("markdownContentChanged")
   static let boundsDidChange = NSView.boundsDidChangeNotification
   static let frameDidChange = NSView.frameDidChangeNotification
+
+  // Outline and Zen Mode notifications
+  static let cursorPositionChanged = Notification.Name("cursorPositionChanged")
+  static let outlineNeedsUpdate = Notification.Name("outlineNeedsUpdate")
+  static let zenModeToggled = Notification.Name("zenModeToggled")
+
+  // Editor Mode notifications
+  static let editorModeChanged = Notification.Name("editorModeChanged")
+  static let selectionDidChange = Notification.Name("selectionDidChange")
 }

@@ -17,6 +17,11 @@ class Document: NSDocument {
     return wc?.contentViewController?.children.last?.children.first as? MarkdownViewController
   }
 
+  /// Public accessor for MarkdownViewController
+  public var markdownVC: MarkdownViewController? {
+    return markdownViewController
+  }
+
   /// Whether the document is transient.
   /// This is initially true until the document is modified
   public var isTransient: Bool = true

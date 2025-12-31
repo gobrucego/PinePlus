@@ -162,7 +162,12 @@ class MarkdownViewController: NSViewController, NSTextViewDelegate, HighlightDel
   }
 
   /// When the scroll view scrolls, sync the preview if enabled in preferences
-  @objc private func scrollViewDidScroll() {    
+  @objc private func scrollViewDidScroll() {
+    // Update paragraph focus overlay on scroll
+    if isParagraphFocusEnabled {
+      updateParagraphFocus()
+    }
+
     guard
       preferences[.syncEditorAndPreview],
       let documentView = scrollView.documentView
@@ -174,6 +179,107 @@ class MarkdownViewController: NSViewController, NSTextViewDelegate, HighlightDel
     let height = documentView.frame.size.height - visibleRect.height
 
     self.previewViewController?.scrollTo(percentage: Float(yPos / height))
+  }
+
+  // MARK: - Public methods for outline navigation
+
+  /// Get the current markdown content
+  /// - Returns: The markdown text in the editor
+  public func getContent() -> String {
+    return markdownTextView.string
+  }
+
+  /// Scroll to a specific range in the document
+  /// - Parameter range: The NSRange to scroll to
+  public func scrollToRange(_ range: NSRange) {
+    // Select the range to move cursor there
+    markdownTextView.setSelectedRange(range)
+
+    // Scroll to make the range visible
+    markdownTextView.scrollRangeToVisible(range)
+
+    // Make the text view first responder
+    view.window?.makeFirstResponder(markdownTextView)
+  }
+
+  // MARK: - Paragraph Focus (Zen Mode)
+
+  /// The overlay view for paragraph dimming
+  private var paragraphDimmingOverlay: ParagraphDimmingOverlay?
+
+  /// Whether paragraph focus is enabled
+  private var isParagraphFocusEnabled: Bool = false
+
+  /// Enable paragraph focus mode
+  public func enableParagraphFocus() {
+    guard !isParagraphFocusEnabled else { return }
+    isParagraphFocusEnabled = true
+
+    // Create and add the overlay
+    let overlay = ParagraphDimmingOverlay(frame: scrollView.bounds)
+    overlay.autoresizingMask = [.width, .height]
+    scrollView.addSubview(overlay, positioned: .above, relativeTo: scrollView.documentView)
+    paragraphDimmingOverlay = overlay
+
+    // Listen for cursor position changes
+    NotificationCenter.receive(.cursorPositionChanged, instance: self, selector: #selector(updateParagraphFocus))
+
+    // Initial update
+    updateParagraphFocus()
+  }
+
+  /// Disable paragraph focus mode
+  public func disableParagraphFocus() {
+    guard isParagraphFocusEnabled else { return }
+    isParagraphFocusEnabled = false
+
+    // Remove the overlay
+    paragraphDimmingOverlay?.removeFromSuperview()
+    paragraphDimmingOverlay = nil
+
+    // Remove notification observer
+    NotificationCenter.default.removeObserver(self, name: .cursorPositionChanged, object: nil)
+  }
+
+  /// Update the paragraph focus overlay
+  @objc private func updateParagraphFocus() {
+    guard isParagraphFocusEnabled, let overlay = paragraphDimmingOverlay else { return }
+
+    let cursorLocation = markdownTextView.selectedRange().location
+    overlay.updateFocusedParagraph(in: markdownTextView, cursorLocation: cursorLocation)
+  }
+
+  // MARK: - Table Editor
+
+  private var tableEditorWindowController: TableEditorWindowController?
+
+  /// Edit the table at the current cursor position
+  @IBAction func editTable(sender: NSMenuItem) {
+    let cursorPosition = markdownTextView.selectedRange().location
+    let text = markdownTextView.string
+
+    guard let table = MarkdownTableParser.findTable(in: text, at: cursorPosition) else {
+      // No table found at cursor position
+      showNoTableAlert()
+      return
+    }
+
+    // Show the table editor
+    if tableEditorWindowController == nil {
+      tableEditorWindowController = TableEditorWindowController()
+      tableEditorWindowController?.delegate = self
+    }
+
+    tableEditorWindowController?.showEditor(with: table)
+  }
+
+  private func showNoTableAlert() {
+    let alert = NSAlert()
+    alert.messageText = "No Table Found"
+    alert.informativeText = "Place your cursor inside a markdown table to edit it."
+    alert.alertStyle = .informational
+    alert.addButton(withTitle: "OK")
+    alert.runModal()
   }
 
   /// Sets the word count in the titlebar word count accessory
@@ -263,6 +369,13 @@ class MarkdownViewController: NSViewController, NSTextViewDelegate, HighlightDel
   ) -> [NSAttributedString.Key: Any] {
     self.generatePreview()
     return newTypingAttributes
+  }
+
+  /// Handle selection changes for beginner mode floating toolbar
+  func textViewDidChangeSelection(_ notification: Notification) {
+    // Notify beginner mode manager about selection change
+    guard let window = view.window else { return }
+    BeginnerModeManager.shared.handleSelectionChange(in: markdownTextView, window: window)
   }
 
 }
@@ -419,4 +532,29 @@ extension MarkdownViewController: NSTouchBarDelegate {
     }
   }
 
+}
+
+// MARK: - TableEditorDelegate
+
+extension MarkdownViewController: TableEditorDelegate {
+
+  func tableEditor(_ editor: TableEditorWindowController, didUpdate table: MarkdownTable) {
+    // Replace the table in the text view
+    let newMarkdown = table.toMarkdown()
+
+    // Get the current text storage
+    guard let textStorage = markdownTextView.textStorage else { return }
+
+    // Replace the table range with the new markdown
+    textStorage.beginEditing()
+    textStorage.replaceCharacters(in: table.sourceRange, with: newMarkdown)
+    textStorage.endEditing()
+
+    // Update the document
+    reloadUI()
+  }
+
+  func tableEditorDidCancel(_ editor: TableEditorWindowController) {
+    // Nothing to do when cancelled
+  }
 }

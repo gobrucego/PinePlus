@@ -14,6 +14,7 @@ let defaults = UserDefaults.standard
 class AppDelegate: NSObject, NSApplicationDelegate {
 
   var splashScreenWindowController: SplashScreenWindowController! = nil
+  var commandPaletteWindowController: CommandPaletteWindowController?
 
   /// The key window's `WindowController` instance
   private var keyWindowController: PineWindowController? {
@@ -31,6 +32,87 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     if #available(OSX 10.12.2, *) {
       NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
+    }
+
+    // Add Command Palette menu item
+    setupCommandPaletteMenuItem()
+  }
+
+  private func setupCommandPaletteMenuItem() {
+    guard let mainMenu = NSApp.mainMenu else { return }
+
+    // Find View menu
+    if let viewMenu = mainMenu.item(withTitle: "View")?.submenu {
+      let commandPaletteItem = NSMenuItem(
+        title: "Show Command Palette",
+        action: #selector(showCommandPalette(_:)),
+        keyEquivalent: "p"
+      )
+      commandPaletteItem.keyEquivalentModifierMask = [.command, .shift]
+      commandPaletteItem.target = self
+
+      // Insert at the beginning of View menu
+      viewMenu.insertItem(commandPaletteItem, at: 0)
+      viewMenu.insertItem(NSMenuItem.separator(), at: 1)
+
+      // Add Zen Mode menu item
+      let zenModeItem = NSMenuItem(
+        title: "Zen Mode",
+        action: #selector(PineWindowController.toggleZenMode(sender:)),
+        keyEquivalent: "z"
+      )
+      zenModeItem.keyEquivalentModifierMask = [.command, .shift]
+
+      viewMenu.insertItem(zenModeItem, at: 2)
+      viewMenu.insertItem(NSMenuItem.separator(), at: 3)
+
+      // Add Editor Mode submenu
+      let modeMenu = NSMenu(title: "Editor Mode")
+
+      let beginnerItem = NSMenuItem(
+        title: "🎓 Beginner Mode",
+        action: #selector(PineWindowController.setBeginnerMode(_:)),
+        keyEquivalent: "1"
+      )
+      beginnerItem.keyEquivalentModifierMask = [.command, .control]
+
+      let standardItem = NSMenuItem(
+        title: "📝 Standard Mode",
+        action: #selector(PineWindowController.setStandardMode(_:)),
+        keyEquivalent: "2"
+      )
+      standardItem.keyEquivalentModifierMask = [.command, .control]
+
+      let zenItem = NSMenuItem(
+        title: "🧘 Zen Mode",
+        action: #selector(PineWindowController.setZenModeFromMenu(_:)),
+        keyEquivalent: "3"
+      )
+      zenItem.keyEquivalentModifierMask = [.command, .control]
+
+      modeMenu.addItem(beginnerItem)
+      modeMenu.addItem(standardItem)
+      modeMenu.addItem(zenItem)
+
+      let modeMenuItem = NSMenuItem(title: "Editor Mode", action: nil, keyEquivalent: "")
+      modeMenuItem.submenu = modeMenu
+
+      viewMenu.insertItem(modeMenuItem, at: 4)
+      viewMenu.insertItem(NSMenuItem.separator(), at: 5)
+    }
+
+    // Add Edit Table menu item to Format menu
+    if let formatMenu = mainMenu.item(withTitle: "Format")?.submenu {
+      formatMenu.addItem(NSMenuItem.separator())
+
+      let editTableItem = NSMenuItem(
+        title: "Edit Table...",
+        action: #selector(MarkdownViewController.editTable(sender:)),
+        keyEquivalent: "t"
+      )
+      editTableItem.keyEquivalentModifierMask = [.command, .shift]
+
+      formatMenu.addItem(editTableItem)
     }
   }
 
@@ -115,6 +197,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
       }
     }
+  }
+
+  // MARK: - Command Palette
+
+  @IBAction func showCommandPalette(_ sender: Any?) {
+    if commandPaletteWindowController == nil {
+      commandPaletteWindowController = CommandPaletteWindowController()
+    }
+    commandPaletteWindowController?.showWindow(sender)
   }
 
 }

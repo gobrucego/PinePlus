@@ -48,6 +48,20 @@ extension PreferenceKeys {
   static let htmlAutocomplete = PreferenceKey<Bool>("htmlAutocomplete", defaultValue: false)
   static let latexAutocomplete = PreferenceKey<Bool>("latexAutocomplete", defaultValue: false)
   static let markdownAutocomplete = PreferenceKey<Bool>("markdownAutocomplete", defaultValue: false)
+
+  // Zen mode options
+  static let zenModeEnabled = PreferenceKey<Bool>("zenModeEnabled", defaultValue: false)
+  static let zenTypewriterMode = PreferenceKey<Bool>("zenTypewriterMode", defaultValue: true)
+  static let zenParagraphFocus = PreferenceKey<Bool>("zenParagraphFocus", defaultValue: true)
+  static let zenHideToolbar = PreferenceKey<Bool>("zenHideToolbar", defaultValue: true)
+  static let zenHideSidebar = PreferenceKey<Bool>("zenHideSidebar", defaultValue: true)
+  static let zenHidePreview = PreferenceKey<Bool>("zenHidePreview", defaultValue: true)
+  static let zenDimmingOpacity = PreferenceKey<CGFloat>("zenDimmingOpacity", defaultValue: 0.5)
+
+  // Editor mode options
+  static let editorMode = PreferenceKey<Int>("editorMode", defaultValue: 1) // Default to standard mode
+  static let beginnerShowFloatingToolbar = PreferenceKey<Bool>("beginnerShowFloatingToolbar", defaultValue: true)
+  static let beginnerShowModeIndicator = PreferenceKey<Bool>("beginnerShowModeIndicator", defaultValue: true)
 }
 
 class Preferences {
